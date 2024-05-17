@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:github_stats_app/core/http/client.dart';
 import 'package:github_stats_app/features/repo_stats/data/data_source/repo_stats_data_source.dart';
+import 'package:github_stats_app/features/repo_stats/domain/repository/repo_stats_repository.dart';
 import 'package:github_stats_app/l10n/global_app_localizations.dart';
 
 final sl = GetIt.instance;
@@ -12,5 +13,9 @@ Future<void> init() async {
 
   sl.registerFactory<RepoStatsDataSource>(
     () => RepoStatsDataSourceImpl(sl()),
+  );
+
+  sl.registerFactory<RepoStatsRepository>(
+    () => RepoStatsRepositoryImpl(sl()),
   );
 }

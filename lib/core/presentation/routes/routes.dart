@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github_stats_app/core/presentation/routes/route_names.dart';
+import 'package:github_stats_app/features/repo_stats/presentation/repo_stats_screen.dart';
 import 'package:github_stats_app/features/splash/presentation/splash_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,6 +19,16 @@ final router = GoRouter(
       pageBuilder: (context, state) {
         return MaterialPage(
           child: const SplashScreen(),
+          name: state.name,
+        );
+      },
+    ),
+    GoRoute(
+      name: RouteNames.repoStats,
+      path: RouteNames.repoStats,
+      pageBuilder: (context, state) {
+        return MaterialPage(
+          child: const RepoStatsScreen(),
           name: state.name,
         );
       },

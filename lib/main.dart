@@ -15,11 +15,11 @@ void main() async {
 
   await di.init();
 
-  runApp(const RankAI());
+  runApp(const GithubStats());
 }
 
-class RankAI extends StatelessWidget {
-  const RankAI({super.key});
+class GithubStats extends StatelessWidget {
+  const GithubStats({super.key});
 
   @override
   Widget build(BuildContext context) {

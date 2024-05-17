@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:github_stats_app/core/http/app_interceptor.dart';
 
 class HTTP {
-  final Dio client = createClient();
+  final Dio githubClient = createGithubClient();
+  final Dio rawGithubClient = createRawGithubClient();
 
-  static Dio createClient() {
+  static Dio createGithubClient() {
     const baseUrl = 'https://api.github.com/';
     final dio = Dio(
       BaseOptions(
@@ -14,7 +14,22 @@ class HTTP {
       ),
     );
 
-    dio.interceptors.add(AppInterceptors(dio));
+    // dio.interceptors.add(AppInterceptors(dio));
+
+    return dio;
+  }
+
+  static Dio createRawGithubClient() {
+    const baseUrl = 'https://raw.githubusercontent.com/';
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        validateStatus: (status) => true,
+        contentType: Headers.jsonContentType,
+      ),
+    );
+
+    //dio.interceptors.add(AppInterceptors(dio));
 
     return dio;
   }

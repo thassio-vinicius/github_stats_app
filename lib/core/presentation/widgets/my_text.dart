@@ -133,9 +133,9 @@ class MyText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.openSans(
+      style: GoogleFonts.poppins(
         fontSize: fontSize.size,
-        color: style?.color ?? Colors.white,
+        color: style?.color ?? Colors.black,
         fontWeight: style?.fontWeight,
         decorationColor: style?.decorationColor,
         decorationStyle: style?.decorationStyle,
