@@ -13,6 +13,15 @@ class RepoStatsScreen extends StatefulWidget {
 }
 
 class _RepoStatsScreenState extends State<RepoStatsScreen> {
+  List<Widget> _displayDecreasingLettersCount(RepoStatsLoadedState state) {
+    final entries = state.totalLettersCount.entries.toList();
+    entries.sort((a, b) => b.value.compareTo(a.value));
+
+    return entries
+        .map((e) => Center(child: MyText('${e.key}: ${e.value}')))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -31,9 +40,7 @@ class _RepoStatsScreenState extends State<RepoStatsScreen> {
             if (isLoaded) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: state.totalLettersCount.entries
-                    .map((e) => Center(child: MyText('${e.key}: ${e.value}')))
-                    .toList(),
+                children: _displayDecreasingLettersCount(state),
               );
             }
 
