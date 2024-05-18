@@ -22,6 +22,8 @@
       }
     }
   },
-  "languageHint": "Lenguaje de Programación"
+  "languageHint": "Lenguaje de Programación",
+  "statsResults": "Resultados de Estadísticas"
+
 
 }

@@ -11,7 +11,7 @@ import 'package:github_stats_app/features/repo_stats/presentation/components/bul
 import 'package:github_stats_app/features/repo_stats/presentation/components/language_dropdown.dart';
 import 'package:github_stats_app/features/repo_stats/presentation/components/repo_field.dart';
 import 'package:github_stats_app/features/repo_stats/presentation/components/wave_container.dart';
-import 'package:github_stats_app/features/repo_stats/presentation/repo_stats_screen.dart';
+import 'package:github_stats_app/features/repo_stats/presentation/repo_stats_results_screen.dart';
 import 'package:github_stats_app/l10n/global_app_localizations.dart';
 
 class RepoStatsFormScreen extends StatefulWidget {
@@ -113,7 +113,7 @@ class _RepoStatsFormScreenState extends State<RepoStatsFormScreen> {
                         text: intl.seeStatistics,
                         onPressed: isButtonEnabled
                             ? () => MyNavigator(context).pushNamed(
-                                  RouteNames.repoStats,
+                                  RouteNames.repoStatsResults,
                                   extra: RepoStatsArgs(
                                     repoName: _nameController.text,
                                     repoOwner: _ownerController.text,

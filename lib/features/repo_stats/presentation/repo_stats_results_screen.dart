@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:github_stats_app/core/errors/failures.dart';
@@ -5,7 +8,11 @@ import 'package:github_stats_app/core/injector.dart';
 import 'package:github_stats_app/core/presentation/routes/my_navigator.dart';
 import 'package:github_stats_app/core/presentation/widgets/my_text.dart';
 import 'package:github_stats_app/core/presentation/widgets/primary_button.dart';
+import 'package:github_stats_app/core/utils/colors.dart';
 import 'package:github_stats_app/core/utils/programming_language_helper.dart';
+import 'package:github_stats_app/features/repo_stats/presentation/components/bar_chart_view.dart';
+import 'package:github_stats_app/features/repo_stats/presentation/components/custom_toggle.dart';
+import 'package:github_stats_app/features/repo_stats/presentation/components/line_chart_view.dart';
 import 'package:github_stats_app/features/repo_stats/presentation/cubit/repo_stats_cubit.dart';
 import 'package:github_stats_app/features/repo_stats/presentation/cubit/repo_stats_state.dart';
 import 'package:github_stats_app/l10n/global_app_localizations.dart';
@@ -24,26 +31,47 @@ class RepoStatsArgs {
   });
 }
 
-class RepoStatsScreen extends StatefulWidget {
+class RepoStatsResultsScreen extends StatefulWidget {
   final RepoStatsArgs args;
-  const RepoStatsScreen({required this.args, super.key});
+  const RepoStatsResultsScreen({required this.args, super.key});
 
   @override
-  State<RepoStatsScreen> createState() => _RepoStatsScreenState();
+  State<RepoStatsResultsScreen> createState() => _RepoStatsResultsScreenState();
 }
 
-class _RepoStatsScreenState extends State<RepoStatsScreen> {
-  List<Widget> _displayDecreasingLettersCount(RepoStatsLoadedState state) {
+class _RepoStatsResultsScreenState extends State<RepoStatsResultsScreen> {
+  final List<bool> _isSelected = [true, false, false];
+  int _selectedIndex = 0;
+
+  Widget _listView(RepoStatsLoadedState state) {
     final entries = state.totalLettersCount.entries.toList();
     entries.sort((a, b) => b.value.compareTo(a.value));
 
-    return entries
-        .map((e) => Center(
-                child: MyText(
-              '${e.key}: ${e.value}',
-              style: MyTextStyle(color: Colors.black),
-            )))
-        .toList();
+    return ListView(
+      children: entries
+          .map((e) => Center(
+                  child: MyText(
+                '${e.key}: ${e.value}',
+                style: MyTextStyle(color: Colors.black),
+              )))
+          .toList(),
+    );
+  }
+
+  Widget _buildView(RepoStatsLoadedState state) {
+    final map = state.totalLettersCount;
+    map.entries.toList().sort((a, b) => b.value.compareTo(a.value));
+
+    switch (_selectedIndex) {
+      case 0:
+        return _listView(state);
+      case 1:
+        return BarChartView(totalLettersCount: map);
+      case 2:
+        return LineChartView(totalLettersCount: map);
+      default:
+        return _listView(state);
+    }
   }
 
   @override
@@ -53,6 +81,21 @@ class _RepoStatsScreenState extends State<RepoStatsScreen> {
     return BlocProvider(
       create: (_) => RepoStatsCubit(sl())..fetchStats(widget.args),
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.primary,
+          centerTitle: true,
+          title: MyText.mediumSmall(
+            intl.statsResults,
+            style: MyTextStyle(fontWeight: FontWeight.w500),
+          ),
+          leading: IconButton(
+            onPressed: () => MyNavigator(context).pop(),
+            icon: Icon(
+              Platform.isIOS ? CupertinoIcons.back : Icons.arrow_back,
+              color: Colors.white,
+            ),
+          ),
+        ),
         body: BlocConsumer<RepoStatsCubit, RepoStatsState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -61,13 +104,31 @@ class _RepoStatsScreenState extends State<RepoStatsScreen> {
             bool isFailed = state is RepoStatsFailedState;
 
             if (isLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                ),
+              );
             }
 
             if (isLoaded) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: _displayDecreasingLettersCount(state),
+                children: [
+                  CustomToggle(
+                    onSelect: (int index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        for (int i = 0; i < _isSelected.length; i++) {
+                          _isSelected[i] = i == index;
+                        }
+                      });
+                    },
+                    selected: _isSelected,
+                  ),
+                  SizedBox(height: 24),
+                  Expanded(child: _buildView(state)),
+                ],
               );
             }
 
