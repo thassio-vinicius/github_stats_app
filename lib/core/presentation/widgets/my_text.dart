@@ -135,7 +135,7 @@ class MyText extends StatelessWidget {
       text,
       style: GoogleFonts.poppins(
         fontSize: fontSize.size,
-        color: style?.color ?? Colors.black,
+        color: style?.color ?? Colors.white,
         fontWeight: style?.fontWeight,
         decorationColor: style?.decorationColor,
         decorationStyle: style?.decorationStyle,

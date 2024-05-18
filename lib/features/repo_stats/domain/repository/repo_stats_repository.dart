@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:github_stats_app/features/repo_stats/data/data_source/repo_stats_data_source.dart';
 import 'package:github_stats_app/features/repo_stats/domain/entities/repo_files_entity.dart';
 import 'package:github_stats_app/features/repo_stats/domain/entities/repo_tree_entity.dart';
@@ -14,6 +15,7 @@ abstract class RepoStatsRepository {
 class RepoStatsRepositoryImpl extends RepoStatsRepository {
   final RepoStatsDataSource _dataSource;
   const RepoStatsRepositoryImpl(this._dataSource);
+
   @override
   Future<Either<Exception, Map<String, int>>> fetchLettersCount(
     String repoName,
@@ -21,33 +23,30 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
   ) async {
     try {
       final response = await _dataSource.getRepo(repoName, repoOwner);
-
       final entity = RepoFilesEntity.fromModel(response);
       final jsTsFiles = entity.jsTsFiles();
       Map<String, int> totalCounts = {};
 
       if (jsTsFiles.isNotEmpty) {
-        final responses =
-            await _getFileContents(repoName, repoOwner, jsTsFiles);
+        // Process files in batches
+        const batchSize = 50;
+        for (int i = 0; i < jsTsFiles.length; i += batchSize) {
+          final batchFiles = jsTsFiles.skip(i).take(batchSize).toList();
+          final fileContentsResult =
+              await _getFileContents(repoName, repoOwner, batchFiles);
 
-        print('WENT HERE ');
-
-        responses.fold((l) {
-          print('ERROR FOLD' + l.toString());
-          return Left(Exception());
-        }, (r) {
-          print('FILES LENGTH ' + r.length.toString());
-          for (var file in r) {
-            final counts = _countLetters(file);
-            totalCounts = _mergeCounts(totalCounts, counts);
-          }
-        });
+          fileContentsResult.fold((l) {
+            return Left(Exception());
+          }, (fileContents) async {
+            final batchCounts =
+                await compute(_countLettersInFiles, fileContents);
+            totalCounts = _mergeCounts(totalCounts, batchCounts);
+          });
+        }
       }
 
       return Right(totalCounts);
     } catch (e) {
-      print('ERROR IS ' + e.toString());
-
       return Left(Exception());
     }
   }
@@ -58,28 +57,32 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
     List<RepoTreeEntity> jsTsFiles,
   ) async {
     try {
-      final futures = <Future<String>>[];
-
-      for (var file in jsTsFiles) {
-        futures.add(
-          _dataSource.getFileContent(
-            repoName,
-            repoOwner,
-            file.path!,
-          ),
-        );
-      }
+      final futures = jsTsFiles
+          .map(
+            (file) =>
+                _dataSource.getFileContent(repoName, repoOwner, file.path!),
+          )
+          .toList();
 
       final List<String> responses = await Future.wait(futures);
-
       return Right(responses);
     } catch (e) {
-      print('ERROR IS ' + e.toString());
       return Left(Exception());
     }
   }
 
-  Map<String, int> _countLetters(String content) {
+  static Map<String, int> _countLettersInFiles(List<String> fileContents) {
+    Map<String, int> totalCounts = {};
+
+    for (String content in fileContents) {
+      Map<String, int> letterCounts = _countLetters(content);
+      totalCounts = _mergeCounts(totalCounts, letterCounts);
+    }
+
+    return totalCounts;
+  }
+
+  static Map<String, int> _countLetters(String content) {
     Map<String, int> letterCounts = {};
 
     for (var char in content.runes) {
@@ -92,7 +95,7 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
     return letterCounts;
   }
 
-  Map<String, int> _mergeCounts(
+  static Map<String, int> _mergeCounts(
     Map<String, int> totalCounts,
     Map<String, int> newCounts,
   ) {
