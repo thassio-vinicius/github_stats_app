@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:github_stats_app/core/errors/failure.dart';
 
 abstract class RepoStatsState extends Equatable {
   const RepoStatsState();
@@ -22,5 +23,6 @@ class RepoStatsLoadingState extends RepoStatsState {
 }
 
 class RepoStatsFailedState extends RepoStatsState {
-  const RepoStatsFailedState();
+  final Failure failure;
+  const RepoStatsFailedState(this.failure);
 }

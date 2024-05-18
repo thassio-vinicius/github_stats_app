@@ -51,8 +51,9 @@ class AnimatedLogoStack extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(width: screenWidth * 0.2, child: AppLogo()),
-                        SizedBox(width: 12)
+                        SizedBox(
+                            width: screenWidth * 0.2, child: const AppLogo()),
+                        const SizedBox(width: 12)
                       ],
                     ),
                     Positioned(

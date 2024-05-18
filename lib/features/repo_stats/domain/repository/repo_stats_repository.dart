@@ -1,15 +1,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:github_stats_app/core/errors/failure.dart';
+import 'package:github_stats_app/core/errors/failures.dart';
+import 'package:github_stats_app/core/utils/programming_language_helper.dart';
 import 'package:github_stats_app/features/repo_stats/data/data_source/repo_stats_data_source.dart';
 import 'package:github_stats_app/features/repo_stats/domain/entities/repo_files_entity.dart';
 import 'package:github_stats_app/features/repo_stats/domain/entities/repo_tree_entity.dart';
 
 abstract class RepoStatsRepository {
   const RepoStatsRepository();
-  Future<Either<Exception, Map<String, int>>> fetchLettersCount(
-    String repoName,
-    String repoOwner,
-  );
+  Future<Either<Failure, Map<String, int>>> fetchLettersCount({
+    required String repoName,
+    required String repoOwner,
+    required String branch,
+    required List<ProgrammingLanguage> languages,
+  });
 }
 
 class RepoStatsRepositoryImpl extends RepoStatsRepository {
@@ -17,57 +22,70 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
   const RepoStatsRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Exception, Map<String, int>>> fetchLettersCount(
-    String repoName,
-    String repoOwner,
-  ) async {
+  Future<Either<Failure, Map<String, int>>> fetchLettersCount({
+    required String repoName,
+    required String branch,
+    required String repoOwner,
+    required List<ProgrammingLanguage> languages,
+  }) async {
     try {
-      final response = await _dataSource.getRepo(repoName, repoOwner);
+      final response = await _dataSource.getRepo(repoName, repoOwner, branch);
       final entity = RepoFilesEntity.fromModel(response);
-      final jsTsFiles = entity.jsTsFiles();
+      final languageFiles = entity.languageFiles(languages);
       Map<String, int> totalCounts = {};
 
-      if (jsTsFiles.isNotEmpty) {
-        // Process files in batches
+      if (languageFiles.isNotEmpty) {
         const batchSize = 50;
-        for (int i = 0; i < jsTsFiles.length; i += batchSize) {
-          final batchFiles = jsTsFiles.skip(i).take(batchSize).toList();
-          final fileContentsResult =
-              await _getFileContents(repoName, repoOwner, batchFiles);
+        for (int i = 0; i < languageFiles.length; i += batchSize) {
+          final batchFiles = languageFiles.skip(i).take(batchSize).toList();
+          final fileContentsResult = await _getFileContents(
+            repoName,
+            repoOwner,
+            batchFiles,
+            branch,
+          );
 
           fileContentsResult.fold((l) {
-            return Left(Exception());
+            return Left(GenericFailure(l.message));
           }, (fileContents) async {
             final batchCounts =
                 await compute(_countLettersInFiles, fileContents);
             totalCounts = _mergeCounts(totalCounts, batchCounts);
           });
         }
+      } else {
+        return const Left(NoResultsForLanguageFailure());
       }
 
       return Right(totalCounts);
     } catch (e) {
-      return Left(Exception());
+      if (e is FormatException) return const Left(NoRepositoriesFailure());
+      return Left(GenericFailure(e.toString()));
     }
   }
 
-  Future<Either<Exception, List<String>>> _getFileContents(
+  Future<Either<Failure, List<String>>> _getFileContents(
     String repoName,
     String repoOwner,
-    List<RepoTreeEntity> jsTsFiles,
+    List<RepoTreeEntity> languageFiles,
+    String branch,
   ) async {
     try {
-      final futures = jsTsFiles
+      final futures = languageFiles
           .map(
-            (file) =>
-                _dataSource.getFileContent(repoName, repoOwner, file.path!),
+            (file) => _dataSource.getFileContent(
+              repoName,
+              repoOwner,
+              file.path!,
+              branch,
+            ),
           )
           .toList();
 
       final List<String> responses = await Future.wait(futures);
       return Right(responses);
     } catch (e) {
-      return Left(Exception());
+      return Left(GenericFailure(e.toString()));
     }
   }
 

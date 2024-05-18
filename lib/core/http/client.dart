@@ -14,8 +14,6 @@ class HTTP {
       ),
     );
 
-    // dio.interceptors.add(AppInterceptors(dio));
-
     return dio;
   }
 
@@ -28,8 +26,6 @@ class HTTP {
         contentType: Headers.jsonContentType,
       ),
     );
-
-    //dio.interceptors.add(AppInterceptors(dio));
 
     return dio;
   }

@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
 
     _animation = Tween<double>(
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
 
-    Timer(Duration(milliseconds: 800), () {
+    Timer(const Duration(milliseconds: 800), () {
       _animationController.forward();
     });
 
@@ -79,14 +79,14 @@ class _SplashScreenState extends State<SplashScreen>
               left: 24,
               right: 24,
               child: AnimatedOpacity(
-                duration: Duration(milliseconds: 750),
+                duration: const Duration(milliseconds: 750),
                 opacity: _opacity,
                 child: PrimaryButton(
                     backgroundColor: Colors.white,
                     textColor: AppColors.primary,
                     text: intl.getStarted,
                     onPressed: () =>
-                        MyNavigator(context).goNamed(RouteNames.repoStats)),
+                        MyNavigator(context).goNamed(RouteNames.repoForm)),
               ),
             ),
           ],

@@ -1,5 +1,26 @@
 {
   "appName": "Github Stats",
-  "getStarted": "Get started"
-
+  "getStarted": "Get started",
+  "statsFormTitle": "See stats from your favorite Repos!",
+  "howItWorks": "How it works:",
+  "howItWorksStep1": "Enter the Github Repository owner;",
+  "howItWorksStep2": "Enter the Github Repository name;",
+  "howItWorksStep3": "Enter the branch to be analyzed",
+  "howItWorksStep4": "Select the programming languages that you want to see statistics for! You can select up to 2 languages at a time",
+  "seeStatistics": "See Statistics",
+  "nameHint": "Repository name",
+  "branchHint": "Repository branch",
+  "ownerHint": "Repository owner",
+  "noRepositoriesFound": "No repositories found. Please try again",
+  "genericError": "Something went wrong. Please try again",
+  "tryAgain": "Try again",
+  "noResultsFound": "No results found for {language}",
+  "@language": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "languageHint": "Programming Language"
 }

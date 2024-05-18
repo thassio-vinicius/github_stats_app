@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:github_stats_app/core/utils/programming_language_helper.dart';
 import 'package:github_stats_app/features/repo_stats/data/models/repo_files_model.dart';
 
 import 'repo_tree_entity.dart';
@@ -27,11 +28,17 @@ class RepoFilesEntity extends Equatable {
     );
   }
 
-  List<RepoTreeEntity> jsTsFiles() {
+  List<RepoTreeEntity> languageFiles(List<ProgrammingLanguage> languages) {
+    final firstLanguageExtension =
+        ProgrammingLanguageHelper.getExtension(languages.first);
+    final lastLanguageExtension = languages.length == 1
+        ? null
+        : ProgrammingLanguageHelper.getExtension(languages.last);
+
     final items = <RepoTreeEntity>[];
     for (var item in (tree ?? [])) {
-      if ((item.path?.endsWith('.js') ?? false) ||
-          (item.path?.endsWith('.ts') ?? false)) {
+      if ((item.path?.endsWith(firstLanguageExtension) ?? false) ||
+          (item.path?.endsWith(lastLanguageExtension) ?? false)) {
         items.add(item);
       }
     }

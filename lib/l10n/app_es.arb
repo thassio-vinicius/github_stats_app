@@ -1,5 +1,27 @@
 {
   "appName": "Github Stats",
-  "getStarted": "Empezar"
+  "getStarted": "Empezar",
+  "statsFormTitle": "¡Vea estadísticas de sus repos favoritos!",
+  "howItWorks": "Cómo funciona:",
+  "howItWorksStep1": "Ingrese el propietario del repositorio de Github;",
+  "howItWorksStep2": "Ingrese el nombre del repositorio de Github;",
+  "howItWorksStep3": "Ingrese la branch a analizar;",
+  "howItWorksStep4": "¡Seleccione los lenguajes de programación para los que desea ver estadísticas! Puede seleccionar hasta 2 lenguajes a la vez",
+  "seeStatistics": "Ver Estadísticas",
+  "nameHint": "Nombre del repositorio",
+  "branchHint": "Nombre de la branch",
+  "ownerHint": "Propietario del repositorio",
+  "noRepositoriesFound": "No se encontraron repositorios. Por favor, inténtelo de nuevo",
+  "noResultsFound": "No se encontraron resultados para {language}",
+  "genericError": "Algo salió mal. Inténtalo de nuevo",
+  "tryAgain": "Rever",
+  "@language": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "languageHint": "Lenguaje de Programación"
 
 }
