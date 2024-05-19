@@ -7,12 +7,12 @@ Aplicación móvil Github Stats desarrollada con Flutter y la API de GitHub. Rea
 
 Construido de acuerdo con el patrón BLoC de Flutter y los principios de Clean Arch, a continuación se detallan los principales paquetes utilizados y su responsabilidad:
 
-Gestión de estado: `flutter_bloc`, más específicamente Cubits
-Inyección de dependencia: `get_it`
-Internacionalización: `intl` y `flutter_localizations`
-Solicitudes HTTP: `Dio`
-Navegación: `go_router`
-Pruebas: `mocktail`
+- Gestión de estado: `flutter_bloc`, más específicamente Cubits
+- Inyección de dependencia: `get_it`
+- Internacionalización: `intl` y `flutter_localizations`
+- Solicitudes HTTP: `Dio`
+- Navegación: `go_router`
+- Pruebas: `mocktail`
 
 <p float="left">
   <img src="./previews/preview1.png" width="125" />
