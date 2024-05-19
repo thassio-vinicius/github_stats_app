@@ -67,7 +67,7 @@ class _RepoStatsFormScreenState extends State<RepoStatsFormScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
                       RepoField(

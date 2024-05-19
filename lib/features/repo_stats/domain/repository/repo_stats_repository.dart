@@ -63,13 +63,17 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
             return Left(GenericFailure(l.message));
           }, (fileContents) async {
             final batchCounts =
-                await compute(_countLettersInFiles, fileContents);
-            totalCounts = _mergeCounts(totalCounts, batchCounts);
+                await compute(countLettersInFiles, fileContents);
+            totalCounts = mergeCounts(totalCounts, batchCounts);
           });
         }
       } else {
         return const Left(NoResultsForLanguageFailure());
       }
+
+      //Workaround to ensure that all batches will be complete
+      //before returning a response
+      await Future.delayed(const Duration(milliseconds: 500));
 
       return Right(FetchCountsResponse(
         filesCount: languageFiles.length,
@@ -106,18 +110,20 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
     }
   }
 
-  static Map<String, int> _countLettersInFiles(List<String> fileContents) {
+  @visibleForTesting
+  static Map<String, int> countLettersInFiles(List<String> fileContents) {
     Map<String, int> totalCounts = {};
 
     for (String content in fileContents) {
-      Map<String, int> letterCounts = _countLetters(content);
-      totalCounts = _mergeCounts(totalCounts, letterCounts);
+      Map<String, int> letterCounts = countLetters(content);
+      totalCounts = mergeCounts(totalCounts, letterCounts);
     }
 
     return totalCounts;
   }
 
-  static Map<String, int> _countLetters(String content) {
+  @visibleForTesting
+  static Map<String, int> countLetters(String content) {
     Map<String, int> letterCounts = {};
 
     for (var char in content.runes) {
@@ -130,7 +136,8 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
     return letterCounts;
   }
 
-  static Map<String, int> _mergeCounts(
+  @visibleForTesting
+  static Map<String, int> mergeCounts(
     Map<String, int> totalCounts,
     Map<String, int> newCounts,
   ) {
