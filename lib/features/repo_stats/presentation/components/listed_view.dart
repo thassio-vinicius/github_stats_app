@@ -16,7 +16,7 @@ class ListedView extends StatelessWidget {
     final intl = sl<GlobalAppLocalizations>().current;
 
     return SingleChildScrollView(
-      padding: EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 16),
       child: DataTable(
         columnSpacing: MediaQuery.sizeOf(context).width * 0.6,
         columns: [

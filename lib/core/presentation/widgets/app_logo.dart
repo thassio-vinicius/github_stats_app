@@ -28,17 +28,6 @@ class AppLogo extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        /*
-        Positioned(
-          bottom: 0,
-          right: -12,
-          child: Icon(
-            Icons.bar_chart,
-            color: Colors.black,
-            size: 36,
-          ),
-        ),
-         */
       ],
     );
   }
