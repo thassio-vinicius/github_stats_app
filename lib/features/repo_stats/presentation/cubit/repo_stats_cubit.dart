@@ -26,13 +26,16 @@ class RepoStatsCubit extends BaseCubit<RepoStatsState> {
         emit(RepoStatsFailedState(l));
       },
       (r) {
-        if (r.isEmpty) {
+        if (r.totalLettersCount.isEmpty || r.filesCount == 0) {
           emit(const RepoStatsFailedState(NoResultsForLanguageFailure()));
           return;
         }
 
         emit(
-          RepoStatsLoadedState(totalLettersCount: r),
+          RepoStatsLoadedState(
+            totalLettersCount: r.totalLettersCount,
+            filesCount: r.filesCount,
+          ),
         );
       },
     );

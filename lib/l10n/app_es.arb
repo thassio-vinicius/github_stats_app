@@ -23,7 +23,19 @@
     }
   },
   "languageHint": "Lenguaje de Programación",
-  "statsResults": "Resultados de Estadísticas"
+  "statsResults": "Resultados de Estadísticas",
+  "sort": "Ordenar",
+  "letter": "Letra",
+  "count": "Puntaje",
+  "lettersCount": "Puntaje de Letras",
+  "totalFilesAnalyzed": "Total de archivos analizados: {files}",
+  "@files": {
+    "placeholders": {
+      "files": {
+        "type": "String"
+      }
+    }
+  }
 
 
 }

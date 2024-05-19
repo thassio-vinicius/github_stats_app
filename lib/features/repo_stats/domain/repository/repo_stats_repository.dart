@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:github_stats_app/core/errors/failure.dart';
 import 'package:github_stats_app/core/errors/failures.dart';
@@ -7,9 +8,22 @@ import 'package:github_stats_app/features/repo_stats/data/data_source/repo_stats
 import 'package:github_stats_app/features/repo_stats/domain/entities/repo_files_entity.dart';
 import 'package:github_stats_app/features/repo_stats/domain/entities/repo_tree_entity.dart';
 
+class FetchCountsResponse extends Equatable {
+  final Map<String, int> totalLettersCount;
+  final int filesCount;
+
+  const FetchCountsResponse({
+    required this.filesCount,
+    required this.totalLettersCount,
+  });
+
+  @override
+  List<Object?> get props => [filesCount, totalLettersCount];
+}
+
 abstract class RepoStatsRepository {
   const RepoStatsRepository();
-  Future<Either<Failure, Map<String, int>>> fetchLettersCount({
+  Future<Either<Failure, FetchCountsResponse>> fetchLettersCount({
     required String repoName,
     required String repoOwner,
     required String branch,
@@ -22,7 +36,7 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
   const RepoStatsRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, Map<String, int>>> fetchLettersCount({
+  Future<Either<Failure, FetchCountsResponse>> fetchLettersCount({
     required String repoName,
     required String branch,
     required String repoOwner,
@@ -35,7 +49,7 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
       Map<String, int> totalCounts = {};
 
       if (languageFiles.isNotEmpty) {
-        const batchSize = 50;
+        const batchSize = 10;
         for (int i = 0; i < languageFiles.length; i += batchSize) {
           final batchFiles = languageFiles.skip(i).take(batchSize).toList();
           final fileContentsResult = await _getFileContents(
@@ -57,7 +71,10 @@ class RepoStatsRepositoryImpl extends RepoStatsRepository {
         return const Left(NoResultsForLanguageFailure());
       }
 
-      return Right(totalCounts);
+      return Right(FetchCountsResponse(
+        filesCount: languageFiles.length,
+        totalLettersCount: totalCounts,
+      ));
     } catch (e) {
       if (e is FormatException) return const Left(NoRepositoriesFailure());
       return Left(GenericFailure(e.toString()));

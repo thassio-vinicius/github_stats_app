@@ -23,5 +23,17 @@
     }
   },
   "languageHint": "Programming Language",
-  "statsResults": "Stats Results"
+  "statsResults": "Stats Results",
+  "sort": "Sort",
+  "letter": "Letter",
+  "count": "Count",
+  "lettersCount": "Puntaje de Letras",
+  "totalFilesAnalyzed": "Total files analyzed: {files}",
+  "@files": {
+    "placeholders": {
+      "files": {
+        "type": "String"
+      }
+    }
+  }
 }

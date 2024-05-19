@@ -1,7 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:github_stats_app/core/injector.dart';
+import 'package:github_stats_app/core/presentation/widgets/my_text.dart';
 import 'package:github_stats_app/core/utils/colors.dart';
+import 'package:github_stats_app/l10n/global_app_localizations.dart';
 
 class BarChartView extends StatelessWidget {
   final Map<String, int> totalLettersCount;
@@ -9,19 +12,31 @@ class BarChartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: BarChart(
-        BarChartData(
-          barTouchData: barTouchData,
-          titlesData: titlesData,
-          borderData: borderData,
-          barGroups: barGroups(context),
-          gridData: const FlGridData(show: false),
-          alignment: BarChartAlignment.spaceAround,
-          maxY: totalLettersCount.values.toList().last.toDouble(),
+    return Column(
+      children: [
+        MyText(
+          sl<GlobalAppLocalizations>().current.lettersCount,
+          style: MyTextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+          ),
         ),
-      ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: BarChart(
+              BarChartData(
+                barTouchData: barTouchData,
+                titlesData: titlesData,
+                borderData: borderData,
+                barGroups: barGroups(context),
+                gridData: const FlGridData(show: false),
+                alignment: BarChartAlignment.spaceAround,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -80,7 +95,9 @@ class BarChartView extends StatelessWidget {
           sideTitles: SideTitles(showTitles: false),
         ),
         topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
         rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
@@ -89,18 +106,20 @@ class BarChartView extends StatelessWidget {
 
   FlBorderData get borderData => FlBorderData(show: false);
 
-  List<BarChartGroupData> barGroups(context) => totalLettersCount.values
-      .toList()
-      .mapIndexed(
-        (i, e) => BarChartGroupData(
-          x: i,
-          barRods: [
-            BarChartRodData(
-              toY: e.toDouble() / 35,
-              color: AppColors.primary,
-            )
-          ].toList(),
-        ),
-      )
-      .toList();
+  List<BarChartGroupData> barGroups(context) {
+    final list = totalLettersCount.values.toList();
+    return list
+        .mapIndexed(
+          (i, e) => BarChartGroupData(
+            x: i,
+            barRods: [
+              BarChartRodData(
+                toY: e.toDouble() / 35,
+                color: AppColors.primary,
+              )
+            ].toList(),
+          ),
+        )
+        .toList();
+  }
 }

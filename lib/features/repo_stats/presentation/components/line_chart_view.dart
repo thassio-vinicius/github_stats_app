@@ -1,8 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:github_stats_app/core/injector.dart';
 import 'package:github_stats_app/core/presentation/widgets/my_text.dart';
 import 'package:github_stats_app/core/utils/colors.dart';
+import 'package:github_stats_app/l10n/global_app_localizations.dart';
 
 class LineChartView extends StatefulWidget {
   final Map<String, int> totalLettersCount;
@@ -18,17 +19,9 @@ class _LineChartViewState extends State<LineChartView> {
     AppColors.primary,
   ];
 
-  Future<List<FlSpot>>? _spotsFuture;
   double maxY = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _spotsFuture = compute(_generateNormalizedSpots, widget.totalLettersCount);
-  }
-
-  static List<FlSpot> _generateNormalizedSpots(
-      Map<String, int> totalLettersCount) {
+  List<FlSpot> _generateNormalizedSpots(Map<String, int> totalLettersCount) {
     final maxValue = totalLettersCount.values.reduce((a, b) => a > b ? a : b);
     final scaleFactor = maxValue / 100;
     return totalLettersCount.values
@@ -42,21 +35,23 @@ class _LineChartViewState extends State<LineChartView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: FutureBuilder<List<FlSpot>>(
-        future: _spotsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(child: MyText('Error loading data'));
-          } else {
-            final spots = snapshot.data!;
-            final values = widget.totalLettersCount.values.toList();
-            values.sort();
-            maxY = values.last.toDouble();
-            return LineChart(
+    final spots = _generateNormalizedSpots(widget.totalLettersCount);
+    final values = widget.totalLettersCount.values.toList();
+    values.sort();
+    maxY = values.last.toDouble();
+    return Column(
+      children: [
+        MyText(
+          sl<GlobalAppLocalizations>().current.lettersCount,
+          style: MyTextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: LineChart(
               LineChartData(
                 lineTouchData: LineTouchData(
                     enabled: true,
@@ -114,9 +109,7 @@ class _LineChartViewState extends State<LineChartView> {
                   LineChartBarData(
                     spots: spots,
                     isCurved: true,
-                    gradient: LinearGradient(
-                      colors: gradientColors,
-                    ),
+                    color: AppColors.primary,
                     barWidth: 5,
                     isStrokeCapRound: true,
                     dotData: const FlDotData(
@@ -133,10 +126,10 @@ class _LineChartViewState extends State<LineChartView> {
                   ),
                 ],
               ),
-            );
-          }
-        },
-      ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

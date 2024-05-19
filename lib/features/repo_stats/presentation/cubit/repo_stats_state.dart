@@ -13,8 +13,12 @@ class RepoStatsInitialState extends RepoStatsState {
 }
 
 class RepoStatsLoadedState extends RepoStatsState {
-  const RepoStatsLoadedState({required this.totalLettersCount});
+  const RepoStatsLoadedState({
+    required this.totalLettersCount,
+    required this.filesCount,
+  });
 
+  final int filesCount;
   final Map<String, int> totalLettersCount;
 }
 
