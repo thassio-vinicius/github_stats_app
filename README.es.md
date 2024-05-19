@@ -3,7 +3,7 @@
 
 # Github Stats App
 
-Github Stats es una aplicación móvil desarrollada con Flutter y la API de GitHub.
+Github Stats Mobile App desarrollada con Flutter y la API de GitHub. Realiza cálculos pesados por lotes ​​sin problemas que permiten al usuario ver un recuento completo de cada letra que aparece en cualquier repositorio público para hasta dos lenguajes de programación diferentes.
 
 <p float="left">
   <img src="./previews/preview1.png" width="175" />
