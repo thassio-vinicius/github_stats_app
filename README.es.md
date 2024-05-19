@@ -3,7 +3,16 @@
 
 # Github Stats App
 
-Github Stats Mobile App desarrollada con Flutter y la API de GitHub. Realiza cálculos pesados por lotes ​​sin problemas que permiten al usuario ver un recuento completo de cada letra que aparece en cualquier repositorio público para hasta dos lenguajes de programación diferentes.
+Aplicación móvil Github Stats desarrollada con Flutter y la API de GitHub. Realiza cálculos por lotes pesados ​​sin problemas, lo que permite al usuario ver un recuento completo de cada letra que aparece en cualquier repositorio público, analizando todos los archivos para hasta dos lenguajes de programación diferentes simultáneamente.
+
+Construido de acuerdo con el patrón BLoC de Flutter y los principios de Clean Arch, a continuación se detallan los principales paquetes utilizados y su responsabilidad:
+
+Gestión de estado: `flutter_bloc`, más específicamente Cubits
+Inyección de dependencia: `get_it`
+Internacionalización: `intl` y `flutter_localizations`
+Solicitudes HTTP: `Dio`
+Navegación: `go_router`
+Pruebas: `mocktail`
 
 <p float="left">
   <img src="./previews/preview1.png" width="125" />
