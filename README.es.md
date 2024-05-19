@@ -3,7 +3,7 @@
 
 # Github Stats App
 
-Github Stats es una aplicación móvil desarrollada con Flutter y la API de OpenAI.
+Github Stats es una aplicación móvil desarrollada con Flutter y la API de GitHub.
 
 <p float="left">
   <img src="./previews/preview1.png" width="175" />
