@@ -18,12 +18,12 @@ class LanguageDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<ProgrammingLanguage>(
-      style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+      style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
       items: ProgrammingLanguage.values
           .map(
             (e) => DropdownMenuItem<ProgrammingLanguage>(
               value: e,
-              child: MyText.mediumSmall(
+              child: MyText(
                 e.key,
                 style: MyTextStyle(color: Colors.black),
               ),

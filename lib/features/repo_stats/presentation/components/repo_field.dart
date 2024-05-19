@@ -19,7 +19,7 @@ class RepoField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      style: GoogleFonts.poppins(color: Colors.black),
+      style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
       textInputAction: action,
       maxLines: null,
       cursorColor: Colors.black,

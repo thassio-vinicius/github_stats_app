@@ -13,10 +13,11 @@ class BulletPoint extends StatelessWidget {
       children: [
         const MyText('  • '),
         Expanded(
-            child: MyText.small(
-          text,
-          style: MyTextStyle(fontWeight: FontWeight.w600),
-        )),
+          child: MyText.small(
+            text,
+            style: MyTextStyle(fontWeight: FontWeight.w500),
+          ),
+        ),
       ],
     );
   }

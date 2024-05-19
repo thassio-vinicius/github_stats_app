@@ -45,7 +45,7 @@ class _RepoStatsFormScreenState extends State<RepoStatsFormScreen> {
               children: [
                 WaveContainer(
                   color: AppColors.primary,
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -67,7 +67,7 @@ class _RepoStatsFormScreenState extends State<RepoStatsFormScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(24),
+                  padding: EdgeInsets.all(16),
                   child: Column(
                     children: [
                       RepoField(
