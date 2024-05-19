@@ -1,8 +1,9 @@
-English | [Spanish](README.es.md)
+[English](README.md) | Spanish
+
 
 # Github Stats App
 
-Github Stats Mobile app developed with Flutter and the OpenAI API.
+Github Stats es una aplicación móvil desarrollada con Flutter y la API de OpenAI.
 
 <p float="left">
   <img src="./previews/preview1.png" width="200" />
@@ -12,18 +13,18 @@ Github Stats Mobile app developed with Flutter and the OpenAI API.
   <img src="./previews/preview5.png" width="200" />
 </p>
 
+## Instrucciones de Ejecución
 
-## Run Instructions
+Para ejecutar la aplicación:
 
-To run the app:
+1. Instala [Flutter](https://docs.flutter.dev/get-started/install)
 
-1. Install [Flutter](https://docs.flutter.dev/get-started/install)
 
-2. Run `flutter gen-l10n` to generate the `AppLocalizations` files. We currently support both English and Spanish languages!
+2. Ejecuta `flutter gen-l10n` para generar los archivos `AppLocalizations`. ¡Actualmente ofrecemos soporte para los idiomas inglés y español!
 
-3. Run the app with `flutter run`. It works on both Android and iOS!
+3. Ejecuta la aplicación con `flutter run`. ¡Funciona tanto en Android como en iOS!
 
-### Flutter Version
+### Versión de Flutter
 
 ```
 Doctor summary (to see all details, run flutter doctor -v):
