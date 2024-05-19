@@ -5,11 +5,11 @@ English | [Spanish](README.es.md)
 Github Stats Mobile app developed with Flutter and the OpenAI API.
 
 <p float="left">
-  <img src="./previews/preview1.png" width="200" />
-  <img src="./previews/preview2.png" width="200" /> 
-  <img src="./previews/preview3.png" width="200" />
-  <img src="./previews/preview4.png" width="200" />
-  <img src="./previews/preview5.png" width="200" />
+  <img src="./previews/preview1.png" width="175" />
+  <img src="./previews/preview2.png" width="175" /> 
+  <img src="./previews/preview3.png" width="175" />
+  <img src="./previews/preview4.png" width="175" />
+  <img src="./previews/preview5.png" width="175" />
 </p>
 
 
