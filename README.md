@@ -2,16 +2,16 @@ English | [Spanish](README.es.md)
 
 # Github Stats App
 
-Github Stats Mobile app developed with Flutter and the GitHub API. It performs heavy batched computations seamlessly that allows the user to see a full count of each letter that appears in any public repository for up to two different Programming Languages.
+Github Stats Mobile app developed with Flutter and the GitHub API. It performs heavy batched computations seamlessly, allowing the user to see a full count of each letter that appears in any public repository, analyzing all files for up to two different Programming Languages simultaneously.
 
 Built in accordance with Flutter's BLoC pattern and Clean Arch principles, below are the main packages used and their responsibility:
 
-- State Management: flutter_bloc, more specifically Cubits
-- Dependency Injection: get_it
-- Internationalization: intl and flutter_localizations
-- HTTP requests: Dio
-- Navigation: go_router
-- Testing: mocktail
+- State Management: `flutter_bloc`, more specifically Cubits
+- Dependency Injection: `get_it`
+- Internationalization: `intl` and `flutter_localizations`
+- HTTP requests: `Dio`
+- Navigation: `go_router`
+- Testing: `mocktail`
 
 <p float="left">
   <img src="./previews/preview1.png" width="125" />
