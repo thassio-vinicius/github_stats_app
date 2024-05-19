@@ -2,7 +2,7 @@ English | [Spanish](README.es.md)
 
 # Github Stats App
 
-Github Stats Mobile app developed with Flutter and the OpenAI API.
+Github Stats Mobile app developed with Flutter and the GitHub API. It performs heavy batched computations seamlessly that allows the user to see a full count of each letter that appears in any public repository for up to two different Programming Languages.
 
 <p float="left">
   <img src="./previews/preview1.png" width="175" />
