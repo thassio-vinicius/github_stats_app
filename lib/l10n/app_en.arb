@@ -27,7 +27,7 @@
   "sort": "Sort",
   "letter": "Letter",
   "count": "Count",
-  "lettersCount": "Puntaje de Letras",
+  "lettersCount": "Letters Count",
   "totalFilesAnalyzed": "Total files analyzed: {files}",
   "@files": {
     "placeholders": {
