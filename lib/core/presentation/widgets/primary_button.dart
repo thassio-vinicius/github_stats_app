@@ -72,15 +72,15 @@ class PrimaryButton extends StatelessWidget {
         : ElevatedButton(
             onPressed: isLoading ? null : onPressed,
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
+              backgroundColor: WidgetStateProperty.all(
                 isEnabled ? color : AppColors.primary.withOpacity(0.3),
               ),
-              shape: MaterialStateProperty.all(
+              shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: borderRadius,
                 ),
               ),
-              padding: MaterialStateProperty.all(EdgeInsets.zero),
+              padding: WidgetStateProperty.all(EdgeInsets.zero),
             ),
             child: child,
           );
